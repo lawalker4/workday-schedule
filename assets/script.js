@@ -1,29 +1,46 @@
 //Current day and time
-const d = new Date("MM,DD,YYYY");
-document.getElementById("demo").innerHTML = d;
-
-var currentDate = moment().format('dddd') + "" + momet().format("YYYY, MM, DD");
-var currentHour = moment().format('h:mm:ss a');
+var currentDay = document.getElementById("currentDay");
+setInterval(function(){
+  currentDay.textContent= moment().format('MM/DD/YYYY hh:mm:ss a')
+},1000)
 
 //Hour by hour
-var inputhour9am = moment().hour("9am");
-var inputhour10am = moment().hour("10am");
-var inputhour11am = moment().hour("11am");
-var inputhour12pm = moment().hour("12pm");
-var inputhour1pm = moment().hour("1pm");
-var inputhour2pm = moment().hour("2pm");
-var inputhour3pm = moment().hour("3pm");
-var inputhour4pm = moment().hour("4pm");
-
 var Input;
 var hourSpan;
 
+var miltaryTime = [9,10,11,12,13,14,15,16,17];
+var standarTime = ["9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm","4pm","5pm"];
+display()
+
+function display(){
+  for (var i = 0; i < standarTime.length; i++){
+    var timeBlock=document.getElementById(standarTime[i])
+    var currentTime=moment().hour()
+    if (currentTime === miltaryTime[i]){
+      timeBlock.classList.add("present")
+    
+    }else if (currentTime > miltaryTime[i]){
+      timeBlock.classList.add("past")
+    }else {
+      timeBlock.classList.add("future")
+    }
+    var text=localStorage.getItem(standarTime[i])
+    timeBlock.value=text
+  }
+}
+   
+
+var saveBtn = document.querySelectorAll(".saveBtn")
+  for (var i = 0; i < saveBtn.length; i++){
+    saveBtn[i].addEventListener("click",function (){
+    var dataId= this.getAttribute("data-id")
+    var text= document.getElementById(dataId)  
+    localStorage.setItem(dataId, text.value)
+    }) 
+  }
 
 
 
-var saveTasks = function() {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  };
 
 
 
